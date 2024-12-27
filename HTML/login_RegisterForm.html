@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inio de seccion</title>
+    <link rel="stylesheet" href="../CSS/styles.css">
+    <link rel="stylesheet" href="../CSS/login_Register.css">
+</head>
+<body>
+    <main>
+        <div id="wraper">
+            <section id="forms">
+                <form action="../PHP/login.php" method="post" id="loginForm">
+                    <h2>Iniciar sesion</h2>
+                    <div>
+                        <label for="emailInput">Correo electronico</label>
+                        <input type="email" name="emailInput" placeholder="Correo electronico" required>
+                    </div>
+                    <div>
+                        <label for="passInput">Contraseña</label>
+                        <input type="password" name="passInput" placeholder="Contraseña" required>
+                    </div> 
+                    <span class="errorMessage d-none">Usuario o contresaña incorrectos</span>
+                    <button type="submit">Iniciar sesion</button>
+                    <button type="button" class="changeFormBtn">Registrarse</button>
+                </form>
+    
+                <form action="../PHP/registre.php" id="registerForm" method="post">
+                    <h2>Registrarse</h2>
+                    <div>
+                        <label for="userNameInput">Nombre de usuario</label>
+                        <input type="text" name="userNameInput" placeholder="Nombre de usuario" required>
+                        <span class="nameErrorMessage errorMessage d-none">Ese nombre de usuario y existe</span>
+                    </div>
+                    <div>
+                        <label for="emailInput">Correo electronico</label>
+                        <input type="email" name="emailInput" placeholder="Correo electronico" required>
+                        <span class="emailErrorMessage errorMessage d-none">Ya hay un usuario con ese correo</span>
+                    </div>
+                    <div>
+                        <label for="passInput">Contraseña</label>
+                        <input type="password" name="passInput" placeholder="Contraseña" required>
+                    </div> 
+                    <div>
+                        <label for="confirmPassInput">Confirmar contraseña</label>
+                        <input type="password" name="confirmPassInput" placeholder="Confirmar contraseña" required>
+                        <span class="passErrorMessage errorMessage d-none">Las contraseñas no coinsiden</span>
+                    </div> 
+                    <span class="errorMessage d-none">Usuario o contresaña incorrectos</span>
+                    <button type="submit">Registrarse</button>
+                    <button type="button" class="changeFormBtn">Iniciar sesion</button>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+<script type="module" src="../Scripts/login_RegisterForm.js"></script>
+</html>

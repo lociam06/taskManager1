@@ -1,0 +1,113 @@
+
+body{
+    min-height: 100vh;
+}
+main{
+    margin: auto;
+    width: 35%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+main #wraper{
+    height: 23rem;
+    overflow-y: hidden;
+    box-sizing: border-box;
+    padding: 20px 30px;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px var(--border-color);
+    background-color: var(--bg2);
+    transition: height 1s;
+}
+
+main #wraper #forms{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;  
+    gap: 20px;  
+    justify-content: space-between;
+    transition: transform 1s;
+}
+
+main #wraper #forms form{
+    display: flex;
+    flex-direction: column;
+    height: calc(34rem - 40px);
+    justify-content: center;
+}
+main #wraper #forms form#loginForm{
+    height: calc(23rem - 40px);
+}
+
+/*titulo*/
+main #wraper #forms form h2{
+    margin-top: 0;
+    margin-bottom: 30px;
+    align-self: center;
+}
+
+/*labels*/
+main #wraper #forms form label{
+    font-weight: 200;
+}
+
+/*inputs*/
+main #wraper #forms form div{
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+main #wraper #forms form div input{
+    border-radius: 7px;
+    border: 2px solid var(--com-color);
+    padding: 5px;
+    font-size: 15px;
+    font-family: Poppins, Arial, Helvetica, sans-serif;
+}
+
+/*mensaje de error*/
+main #wraper #forms form .errorMessage{
+    color: #c00;
+    font-size: 12px;
+}
+
+/*mensaje botones*/
+main #wraper #forms form button[type="submit"]{
+    font-size: 15px;
+    border: none;
+    border-radius: 7px;
+    padding: 12px 10px;
+    background-color: var(--primary);
+    color: #FFF;
+    transition: filter .5s;
+}
+
+main #wraper #forms form .changeFormBtn{
+    margin-top: 3px;
+    font-size: 13px;
+    border: none;
+    color: var(--primary);
+    border-radius: 7px;
+    background-color: transparent;
+    padding: 5px;
+    text-decoration: underline;
+    transition: filter .5s;
+}
+
+/*para la funcion de deslizar el formulario*/
+#forms.loginFormActive{
+    transform: translateY(0%);
+}
+#forms.registreFormActive{
+    transform: translateY(calc(-23rem + 20px));
+}
+
+/*wraper*/
+#wraper.loginFormActive{
+    height: 23rem;
+}
+#wraper.registreFormActive{
+    height: 34rem;
+}

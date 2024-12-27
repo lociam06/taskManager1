@@ -1,0 +1,85 @@
+:root{
+    --primary: #6366F1;
+    --primary-darker: #4346D1;
+    --com-color: #E5E7EB;
+    --bg-light: #F3F4F6;
+    --bg-dark: #000000;
+    --bg-color: var(--bg-light);
+    --bg2: #FFFFFF;
+    --fore-ground-ligh: #1F2937;
+    --fore-ground-dark: #FFFFFF;
+    --sub-fore-ground-light: #6B7280;
+    --sub-fore-ground: var(--sub-fore-ground-light);
+    --fore-ground: var(--fore-ground-ligh);
+    --border-light: #CCCCCC;
+    --border-color: var(--border-light);
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url('../Sources/Fonts/Poppins/Poppins-Regular.ttf');
+    font-style: normal;
+    font-weight: normal;}
+@font-face {
+    font-family: Poppins;
+    src: url('../Sources/Fonts/Poppins/Poppins-Bold.ttf');
+    font-style: bold;
+    font-weight: bold;}
+@font-face {
+    font-family: Poppins;
+    src: url('../Sources/Fonts/Poppins/Poppins-SemiBold.ttf');
+    font-style: 200;
+    font-weight: 200;}
+/*General*/
+body{
+    padding: 0;
+    margin: 0;
+    font-family: Poppins;
+    background-color: var(--bg-color);
+    color: var(--fore-ground);
+}
+
+/*Menu de navegacion*/
+nav{
+    display: flex;
+    background-color: var(--primary);
+    color: #FFFFFF;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+}
+
+nav #nav-title{
+    margin: 0;
+}
+
+nav .options{
+    display: flex;
+}
+
+nav .options div{
+    display: flex;
+    align-items: center;
+    transition: background-color .5s;
+}
+nav .options div:hover{
+    display: flex;
+    background-color: var(--primary-darker);
+}
+
+nav .options div a{
+    box-sizing: border-box;
+    padding: 20px;
+    display: inline-block;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav .options div a i{
+    font-size: 20px;
+}
+
+/*Otros*/
+.d-none{display: none;}
+.d-block{display: block;}

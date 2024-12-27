@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./CSS/styles.css">
+    <link rel="stylesheet" href="./CSS/indexStyles.css">
+    <title>Task Manager</title>
+</head>
+<body>
+    <header>
+        <nav id="nav">
+            <h1 id="nav-title">Task Manager</h1>
+            <div class="options">
+                <div>
+                    <a href="./HTML/login_RegisterForm.html?autoLog=false">Username</a>
+                    <a href=""><i class="fa-solid fa-user"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!--Categories-->
+    <section id="main-section">
+        <section id="categories-section">
+            <div id="categories">
+                <div class="tittle">
+                    <h1>Categories</h1>
+                </div>
+                <div class="elements">
+                    <div>
+                        <i class="fa-solid fa-list"></i>
+                        <span>All task</span>
+                    </div>
+                    <hr>
+                    <div>
+                        <i class="fa-solid fa-list"></i>
+                        <span>School</span>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-list"></i>
+                        <span>Personal</span>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-list"></i>
+                        <span>Work</span>
+                    </div>
+                </div>
+                <button id="add-section-btn"><i class="fa-regular fa-plus"></i></button>
+            </div>
+        </section>
+
+        <!--Tasks-->
+        <section id="tasks-section">
+            <div id="tasks">
+                <div class="tasks-header">
+                    <h1>Tasks</h1>
+                    <a href="#add-new-task" aria-level="Añadir tarea"><i class="fa-regular fa-plus"></i></a>
+                </div>
+                <div class="task">
+                    <input type="checkbox" class="checkbox-input">
+                    <span class="task-tittle" >Hacer algo productivo</span>
+                    <p class="task-description">Hacer algo productivo se refiere a hacer algo productivo, no se si le estas llegando, aunque creo que no porque eres mas tonto que escupir pa rriba</p>
+                    <span class="task-creating-date">18/07/2024</span>
+                    <button class="edit-task-btn"><i class="fa-regular fa-pen-to-square"></i></button>
+                    <button class="delete-task-btn"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+                
+                <div class="task">
+                    <input type="checkbox" class="checkbox-input">
+                    <span class="task-tittle" >Hacer algo productivo</span>
+                    <p class="task-description">Hacer algo productivo se refiere a hacer algo productivo, no se si le estas llegando, aunque creo que no porque eres mas tonto que escupir pa rriba</p>
+                    <span class="task-creating-date">18/07/2024</span>
+                    <button class="edit-task-btn"><i class="fa-regular fa-pen-to-square"></i></button>
+                    <button class="delete-task-btn"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+                
+                <div class="task">
+                    <input type="checkbox" class="checkbox-input">
+                    <span class="task-tittle" >Hacer algo productivo</span>
+                    <p class="task-description">Hacer algo productivo se refiere a hacer </p>
+                    <span class="task-creating-date">18/07/2024</span>
+                    <button class="edit-task-btn"><i class="fa-regular fa-pen-to-square"></i></button>
+                    <button class="delete-task-btn"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+            </div>
+
+            <div id="add-new-task">
+                <h1>Add taks</h1>
+                <form>
+                    <div>
+                        <label for="task-tittle-input">Titulo</label>
+                        <input type="text" class="task-tittle-input" name="task-tittle-input" maxlength="50" placeholder="Titulo de la tarea" required>
+                    </div>
+                    <div>
+                        <label for="task-description-input">Descripcion</label>
+                        <textarea name="task-description-input" cols="30" maxlength="300" placeholder="Descripcion de la tarea"></textarea>
+                    </div>
+                    <button type="submit" id="add-new-task-btn">Añadir tarea</button>
+                </form>
+            </div>
+        </section>
+
+        <!--Complete task-->
+        <section id="completed-tasks-section">
+            <div id="completed-tasks">
+                <h1>Completed tasks</h1>
+                <div class="task">
+                    <span class="task-tittle" >Hacer algo productivo lo</span>
+                    <span class="task-period-to-complete">17/07/2024 - 18/07/2024</span>
+                    <button class="come-back-task-btn"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                    <button class="delete-task-btn"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+
+                <div class="task">
+                    <span class="task-tittle" >Hacer algo productivo lo</span>
+                    <span class="task-period-to-complete">17/07/2024 - 18/07/2024</span>
+                    <button class="come-back-task-btn"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                    <button class="delete-task-btn"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+
+                <div class="task">
+                    <span class="task-tittle" >Hacer algo productivo lo</span>
+                    <span class="task-period-to-complete">17/07/2024 - 18/07/2024</span>
+                    <button class="come-back-task-btn"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                    <button class="delete-task-btn"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+
+                <div class="task">
+                    <span class="task-tittle" >Hacer algo productivo lo</span>
+                    <span class="task-period-to-complete">17/07/2024 - 18/07/2024</span>
+                    <button class="come-back-task-btn"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                    <button class="delete-task-btn"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+            </div>
+        </section>
+    </section>
+</body>
+<script src="./Scripts/IndexScript.js"></script>
+</html>
