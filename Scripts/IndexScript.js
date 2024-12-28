@@ -1,4 +1,9 @@
+//contenedor de de tareas no hechas UI
 const tasksContainer = document.getElementById('tasks');
+
+//contenedor de de tareas hechas UI
+const completedTasksContainer = document.getElementById('completed-tasks');
+
 document.addEventListener("DOMContentLoaded", async function(){
     await getTasks();
 
@@ -14,17 +19,12 @@ document.addEventListener("DOMContentLoaded", async function(){
             body: JSON.stringify(data)
         });
         const response = await responseJSON.json();
+        console.log("response:", response);
 
         //Para presentar la tarear en la UI
-        taskElement = createTaskElement(response.id ,data['task-tittle-input'], data['task-description-input'], new Date(Date.now()).toLocaleDateString());
+        taskElement = createTaskElement(response ,data['task-tittle-input'], data['task-description-input'], new Date(Date.now()).toLocaleDateString(), "pending");
         tasksContainer.appendChild(taskElement);
     });
-
-    //Elimina una tarea de la base de datos y de la UI
-    const deleteButtons = document.querySelectorAll(".task .delete-task-btn");
-    deleteButtons.forEach(button => {
-        addDelateEvent(button);
-    })
 });
 
 //Devuelve una la lista de tareas de la base de datos
@@ -37,11 +37,19 @@ async function getTaskList(){
 //Vuelve a cargar las tareas segun el usuario
 async function getTasks(){
     restartTasks();
+    restartCompletedTasks();
     const tasks = await getTaskList();
     
     tasks.forEach(task => {
-        const taskElement = createTaskElement(task.id, task.title, task.description, new Date(task.created_at).toLocaleDateString(), task.status);
-        tasksContainer.appendChild(taskElement);
+        if(task.status == "pending"){
+            const taskElement = createTaskElement(task.id, task.title, task.description, new Date(task.created_at).toLocaleDateString(), task.status);
+            tasksContainer.appendChild(taskElement);
+        }
+        else if(task.status == "completed"){
+            const taskElement = createCompletedTaskElement(task.id, task.title, task.status);
+            completedTasksContainer.appendChild(taskElement);
+        }
+        else alert("Ha ocurrido un error con algunas de las tareas");
     });
 }
 
@@ -87,8 +95,47 @@ function createTaskElement(id ,title, description, creationDate, status){
     //Check box
     if(status != undefined){
         if(status == "completed") checkboxInput.checked = true;
+        else if(status == "pending") checkboxInput.checked = false;
     }
     addChangeTaskStatusEvent(checkboxInput);
+    addDelateEvent(deleteTaskBtn);
+    
+    return taskElement;
+}
+
+//Crea una tarea completa
+function createCompletedTaskElement(id ,title, status){
+    const taskElement = document.createElement("div");
+    taskElement.className = "task";
+    taskElement.setAttribute("data-task-id", id)
+
+    const checkboxInput = document.createElement("input");
+    checkboxInput.setAttribute("type", "checkbox");
+    checkboxInput.setAttribute("checked", true);
+    checkboxInput.className = "checkbox-input";
+
+    const taskTitle = document.createElement("span");
+    taskTitle.className = "task-tittle";
+    taskTitle.textContent = title;
+
+    const deleteTaskBtn = document.createElement("button");
+    deleteTaskBtn.className = "delete-task-btn";
+    const deleteTaskBtnIcon = document.createElement("i");
+    deleteTaskBtnIcon.classList.add("fa-regular");
+    deleteTaskBtnIcon.classList.add("fa-trash-can");
+    deleteTaskBtn.appendChild(deleteTaskBtnIcon);
+
+    taskElement.append(checkboxInput, taskTitle, deleteTaskBtn);
+
+    //Añadir funciones
+    //Check box
+    if(status != undefined){
+        if(status == "completed") checkboxInput.checked = true;
+        else if(status == "pending") checkboxInput.checked = false;
+    }
+    addChangeTaskStatusEvent(checkboxInput);
+    addDelateEvent(deleteTaskBtn);
+
     return taskElement;
 }
 
@@ -96,6 +143,14 @@ function createTaskElement(id ,title, description, creationDate, status){
 function restartTasks(){
     while(tasksContainer.firstElementChild.nextElementSibling){
         tasksContainer.firstElementChild.nextElementSibling.remove()
+    }
+}
+
+//Vacia las tareas hechas en el UI
+function restartCompletedTasks(){
+    console.log("XD")
+    while(completedTasksContainer.firstElementChild.nextElementSibling){
+        completedTasksContainer.firstElementChild.nextElementSibling.remove()
     }
 }
 
@@ -115,16 +170,31 @@ async function deleteTask(taskID){
     });
 }
 
-//Cambiar estatusde tarea
+//Cambiar status de tarea
 async function addChangeTaskStatusEvent(element){
+    const taskID = element.parentNode.dataset["taskId"];
+    const status = element.checked;
+    const title = element.parentNode.children[1].textContent;
+
+    const tasks = await getTaskList();
+    
+    const task = await tasks.find(item => item.id == taskID);
     element.addEventListener("click", async function(){
-        const taskID = element.parentNode.dataset["taskId"];
-        const status = element.checked;
-        await changeTaskStatus(taskID, status);
+        console.log("activated estatus", !status)
+        await changeTaskStatus(taskID, !status);
+        if(!status){
+            const taskElement = createCompletedTaskElement(taskID, title, "completed");
+            completedTasksContainer.appendChild(taskElement);
+        }
+        else if(status){
+            const taskElement = createTaskElement(task.id, task.title, task.description, new Date(task.created_at).toLocaleDateString(), "pending");
+            tasksContainer.appendChild(taskElement);
+        }
+        element.parentNode.remove();
     });
+    
 }
 async function changeTaskStatus(taskID, status){
-    console.log(status);
     const response = await fetch("../PHP/changeTaskStatus.php",{
         method: "POST",
         headers: {'Content-Type': 'application/json'},
