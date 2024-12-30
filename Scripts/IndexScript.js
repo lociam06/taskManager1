@@ -19,7 +19,13 @@ document.addEventListener("DOMContentLoaded", async function(){
             body: JSON.stringify(data)
         });
         const response = await responseJSON.json();
-        console.log("response:", response);
+
+        //Borrar lo que pusite
+        const selector = "input.task-tittle-input, textarea";
+        addTaskForm.querySelectorAll(selector).forEach((element) => {
+            console.log(element);
+            element.value = "";
+        })
 
         //Para presentar la tarear en la UI
         taskElement = createTaskElement(response ,data['task-tittle-input'], data['task-description-input'], new Date(Date.now()).toLocaleDateString(), "pending");
@@ -89,6 +95,11 @@ function createTaskElement(id ,title, description, creationDate, status){
     deleteTaskBtnIcon.classList.add("fa-trash-can");
     deleteTaskBtn.appendChild(deleteTaskBtnIcon);
 
+    //Si no tiene descripcion
+    if(description.trim() == ""){
+        taskElement.classList.add("no-description");
+    }
+
     taskElement.append(checkboxInput, taskTitle, taskDescription, taskCreationDate, editTaskBtn, deleteTaskBtn);
 
     //Añadir funciones
@@ -148,7 +159,6 @@ function restartTasks(){
 
 //Vacia las tareas hechas en el UI
 function restartCompletedTasks(){
-    console.log("XD")
     while(completedTasksContainer.firstElementChild.nextElementSibling){
         completedTasksContainer.firstElementChild.nextElementSibling.remove()
     }
@@ -174,13 +184,12 @@ async function deleteTask(taskID){
 async function addChangeTaskStatusEvent(element){
     const taskID = element.parentNode.dataset["taskId"];
     const status = element.checked;
-    const title = element.parentNode.children[1].textContent;
+    const title = element.parentNode.querySelector(".task-tittle").textContent;
 
     const tasks = await getTaskList();
     
     const task = await tasks.find(item => item.id == taskID);
     element.addEventListener("click", async function(){
-        console.log("activated estatus", !status)
         await changeTaskStatus(taskID, !status);
         if(!status){
             const taskElement = createCompletedTaskElement(taskID, title, "completed");
@@ -202,3 +211,5 @@ async function changeTaskStatus(taskID, status){
     });
     console.log(await response.json());
 }
+
+//Modificar tarea
