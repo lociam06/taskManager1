@@ -1,3 +1,5 @@
+import * as utils from "./utilities.js";
+
 //contenedor de de tareas no hechas UI
 const tasksContainer = document.getElementById('tasks');
 
@@ -23,12 +25,11 @@ document.addEventListener("DOMContentLoaded", async function(){
         //Borrar lo que pusite
         const selector = "input.task-tittle-input, textarea";
         addTaskForm.querySelectorAll(selector).forEach((element) => {
-            console.log(element);
             element.value = "";
         })
 
         //Para presentar la tarear en la UI
-        taskElement = createTaskElement(response ,data['task-tittle-input'], data['task-description-input'], new Date(Date.now()).toLocaleDateString(), "pending");
+        let taskElement = createTaskElement(response ,data['task-tittle-input'], data['task-description-input'], new Date(Date.now()).toLocaleDateString(), "pending");
         tasksContainer.appendChild(taskElement);
     });
 });
@@ -42,7 +43,7 @@ async function getTaskList(){
 
 //Vuelve a cargar las tareas segun el usuario
 async function getTasks(){
-    restartTasks();
+    //restartTasks();
     restartCompletedTasks();
     const tasks = await getTaskList();
     
@@ -63,11 +64,19 @@ async function getTasks(){
 function createTaskElement(id ,title, description, creationDate, status){
     const taskElement = document.createElement("div");
     taskElement.className = "task";
-    taskElement.setAttribute("data-task-id", id)
+    taskElement.setAttribute("data-task-id", id);
+    //Si no tiene descripcion
+    if(description.trim() == ""){
+        taskElement.classList.add("no-description");
+    }
 
     const checkboxInput = document.createElement("input");
     checkboxInput.setAttribute("type", "checkbox");
     checkboxInput.className = "checkbox-input";
+    if(status != undefined){
+        if(status == "completed") checkboxInput.checked = true;
+        else if(status == "pending") checkboxInput.checked = false;
+    }
 
     const taskTitle = document.createElement("span");
     taskTitle.className = "task-tittle";
@@ -95,20 +104,45 @@ function createTaskElement(id ,title, description, creationDate, status){
     deleteTaskBtnIcon.classList.add("fa-trash-can");
     deleteTaskBtn.appendChild(deleteTaskBtnIcon);
 
-    //Si no tiene descripcion
-    if(description.trim() == ""){
-        taskElement.classList.add("no-description");
-    }
+    /*Editing area*/
+    const editingTitle = document.createElement("input");
+    editingTitle.setAttribute("type", "text");
+    editingTitle.setAttribute("maxlength", "50");
+    editingTitle.className = "editing-title-input d-none";
 
-    taskElement.append(checkboxInput, taskTitle, taskDescription, taskCreationDate, editTaskBtn, deleteTaskBtn);
+    const editingDescription = document.createElement("textarea");
+    editingDescription.className = "editing-description-textarea d-none";
+    editingDescription.setAttribute("maxlength", "300")
 
+    const saveCancelContiner = document.createElement("div");
+    saveCancelContiner.className = "save-cancel-editing d-none";
+    
+    const saveBtn = document.createElement("button");
+    saveBtn.className = "save";
+    const checkIcon = document.createElement("i");
+    checkIcon.className = "fa-solid fa-check";
+    saveBtn.append(checkIcon);
+    
+    const cancelBtn = document.createElement("button");
+    cancelBtn.className = "cancel";
+    const cancelIcon = document.createElement("i");
+    cancelIcon.className = "fa-solid fa-xmark";
+    cancelBtn.append(cancelIcon);
+    
+    saveCancelContiner.append(saveBtn, cancelBtn);
+    
+    taskElement.append(checkboxInput, taskTitle, taskDescription, taskCreationDate, editTaskBtn, deleteTaskBtn, editingTitle, editingDescription, saveCancelContiner);
+    
     //Añadir funciones
     //Check box
-    if(status != undefined){
-        if(status == "completed") checkboxInput.checked = true;
-        else if(status == "pending") checkboxInput.checked = false;
-    }
     addChangeTaskStatusEvent(checkboxInput);
+    //-----Modificar
+    addModifieTaskEvent(editTaskBtn);
+    //Cancelar cambios
+    addCancelEditingEvent(cancelBtn);
+    //Guardar cambios
+    addSaveEditingEvent(saveBtn);
+    //Elminar
     addDelateEvent(deleteTaskBtn);
     
     return taskElement;
@@ -156,7 +190,6 @@ function restartTasks(){
         tasksContainer.firstElementChild.nextElementSibling.remove()
     }
 }
-
 //Vacia las tareas hechas en el UI
 function restartCompletedTasks(){
     while(completedTasksContainer.firstElementChild.nextElementSibling){
@@ -204,12 +237,102 @@ async function addChangeTaskStatusEvent(element){
     
 }
 async function changeTaskStatus(taskID, status){
-    const response = await fetch("../PHP/changeTaskStatus.php",{
+    await fetch("../PHP/changeTaskStatus.php",{
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({taskID: taskID, status: status})
     });
-    console.log(await response.json());
 }
 
-//Modificar tarea
+//-----------Modificar tarea---------------
+function getNoEditingElements(element){
+    let taskElements = [];
+    for(let i = 0; i <= 5; i++){
+        taskElements.push(element.children[i]);
+    }
+    return taskElements;
+}
+function getEditingElements(element){
+    let editingElements = [];
+    for(let i = 6; i <= 8; i++){
+        editingElements.push(element.children[i]);
+    }
+    return editingElements;
+}
+function addModifieTaskEvent(element){    
+    element.addEventListener("click", () => {
+        let parent = element.parentNode;
+        
+        let taskElements = getNoEditingElements(parent);
+        let editingElements = getEditingElements(parent);
+        
+        taskElements.forEach(item => {
+            utils.dNone(item);
+        });
+        editingElements.forEach(item => {
+            utils.removeDNone(item);
+        });
+
+        let title = parent.querySelector(".task-tittle");
+        let descripcion = parent.querySelector(".task-description");
+
+        let titleInput = parent.querySelector(".editing-title-input");
+        let descripcionInput = parent.querySelector(".editing-description-textarea");
+
+        titleInput.value = title.textContent;
+        descripcionInput.value = descripcion.textContent;
+    });
+}
+//cancelar cambios
+function closeEditing(element) {
+    let parent = element.parentNode.parentNode;
+    let taskElements = getNoEditingElements(parent);
+    let editingElements = getEditingElements(parent);
+    
+    taskElements.forEach(item => {
+        utils.removeDNone(item);
+    });
+    editingElements.forEach(item => {
+        utils.dNone(item);
+    });
+}
+function addCancelEditingEvent(element) {
+    element.addEventListener("click", () => {
+        closeEditing(element);
+    });
+}
+//guardar cambios
+async function addSaveEditingEvent(element) {
+    element.addEventListener("click", async () => {
+        let parent = element.parentNode.parentNode;
+        const titleEditingVal = parent.querySelector(".editing-title-input").value;
+        const descripcionEditingVal = parent.querySelector(".editing-description-textarea").value.trim();
+
+        let taskTile = parent.querySelector(".task-tittle");
+        let taskDescription = parent.querySelector(".task-description");
+
+        taskTile.textContent = titleEditingVal;
+        taskDescription.textContent = descripcionEditingVal;
+        closeEditing(element);
+
+        if(descripcionEditingVal.trim() == "") parent.classList.add("no-description");
+        else parent.classList.remove("no-description");
+
+        let taskID = parent.getAttribute("data-task-id");
+        const data = {
+            id: parseInt(taskID),
+            title: titleEditingVal,
+            description: descripcionEditingVal
+        }
+        await modifieTaskDB(data);
+    })
+}
+
+async function modifieTaskDB(data) {
+    const response = await fetch("../PHP/modifieTask.php",{
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    });
+    console.log(response);
+}

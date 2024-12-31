@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./CSS/add_task_area">
+    <link rel="stylesheet" href="./CSS/categories_section.css">
+    <link rel="stylesheet" href="./CSS/completed_tasks_section.css">
+    <link rel="stylesheet" href="./CSS/tasks_section.css">
+    <link rel="stylesheet" href="./CSS/utilities.css">
     <link rel="stylesheet" href="./CSS/styles.css">
     <link rel="stylesheet" href="./CSS/indexStyles.css">
     <title>Task Manager</title>
@@ -59,6 +64,27 @@
                     <h1>Tasks</h1>
                     <a href="#add-new-task" aria-level="Añadir tarea"><i class="fa-regular fa-plus"></i></a>
                 </div>
+                <!--------------------------Maquetacion------------------------->
+                <!--
+                <div class="task">
+                    <input type="checkbox" class="checkbox-input">
+                    <span class="task-tittle" >Hacer algo productivo</span>
+                    <p class="task-description">Hacer algo productivo se refiere a hacer algo productivo, no se si le estas llegando, aunque creo que no porque eres mas tonto que escupir pa rriba</p>
+                    <span class="task-creating-date">18/07/2024</span>
+                    <button class="edit-task-btn"><i class="fa-regular fa-pen-to-square"></i></button>
+                    <button class="delete-task-btn"><i class="fa-regular fa-trash-can"></i></button>
+
+                    <-----Para editar---->
+                    <!--
+                    <input type="text" class="editing-title-input">
+                    <textarea class="editing-description-textarea"></textarea>
+                    
+                    <div class="save-cancel-editing">
+                        <button class="save"><i class="fa-solid fa-check"></i></button>
+                        <button class="cancel"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+                -->
             </div>
 
             <div id="add-new-task">
@@ -85,5 +111,5 @@
         </section>
     </section>
 </body>
-<script src="./Scripts/IndexScript.js"></script>
+<script type="module" src="./Scripts/IndexScript.js"></script>
 </html>

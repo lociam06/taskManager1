@@ -1,0 +1,54 @@
+/*-------------------Agregar tareas-------------------*/
+#main-section #tasks-section #add-new-task{
+    margin-top: 25px;
+}
+#main-section #tasks-section #add-new-task h1{
+    font-size: 26px;
+    margin: 15px 0;
+}
+#main-section #tasks-section #add-new-task form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px var(--border-color);
+    background-color: var(--bg2);
+}
+#main-section #tasks-section #add-new-task form div{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+#main-section #tasks-section #add-new-task form div label{
+    font-weight: 200;
+}
+#main-section #tasks-section #add-new-task form div input, #main-section #tasks-section #add-new-task form div textarea{
+    border-radius: 7px;
+    border: 2px solid var(--com-color);
+    padding: 10px;
+    font-size: 15px;
+    font-family: Poppins, Arial, Helvetica, sans-serif; 
+}
+#main-section #tasks-section #add-new-task form div textarea{
+    min-height: 60px;
+    max-height: 165px;
+    resize: vertical;
+}
+/*boton de añadir tarea*/
+#main-section #tasks-section #add-new-task form button{
+    width: 15%;
+    font-size: 15px;
+    border: none;
+    border-radius: 7px;
+    padding: 12px 10px;
+    justify-self: flex-end;
+    align-self: flex-end;
+    background-color: var(--primary);
+    color: #FFF;
+    transition: filter .5s;
+}
+#main-section #tasks-section #add-new-task form button:hover{
+    filter: brightness(2);
+    cursor: pointer;
+}

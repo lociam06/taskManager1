@@ -40,6 +40,10 @@ body{
 }
 
 /*Menu de navegacion*/
+header{
+    position: sticky;
+    top: 0;
+}
 nav{
     display: flex;
     background-color: var(--primary);
@@ -79,7 +83,3 @@ nav .options div a{
 nav .options div a i{
     font-size: 20px;
 }
-
-/*Otros*/
-.d-none{display: none;}
-.d-block{display: block;}
