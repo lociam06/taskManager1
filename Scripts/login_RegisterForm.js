@@ -4,21 +4,25 @@ const wraper = document.querySelector("#wraper");
 let formActived = "loginForm";
 
 /*Par los estilos de los formulrios*/
+function activeRegistreForm(){
+    wraper.classList.add("registreFormActive");
+    wraper.classList.remove("loginFormActive");
+    formsContiner.classList.add("registreFormActive");
+    formsContiner.classList.remove("loginFormActive");
+    formActived = "registreForm";
+}
+function activeLoginForm(){
+    wraper.classList.add("loginFormActive");
+    wraper.classList.remove("registreFormActive");
+    formsContiner.classList.add("loginFormActive");
+    formsContiner.classList.remove("registreFormActive");
+    formActived = "loginForm";
+}
 changeFormBtns.forEach(btn => {
     btn.addEventListener("click", function(){
-        if(formActived == "loginForm"){
-            wraper.classList.add("registreFormActive");
-            wraper.classList.remove("loginFormActive");
-            formsContiner.classList.add("registreFormActive");
-            formsContiner.classList.remove("loginFormActive");
-            formActived = "registreForm"
-        }else if(formActived == "registreForm"){
-            wraper.classList.add("loginFormActive");
-            wraper.classList.remove("registreFormActive");
-            formsContiner.classList.add("loginFormActive");
-            formsContiner.classList.remove("registreFormActive");
-            formActived = "loginForm"
-        }
+        console.log("yes")
+        if(formActived == "loginForm") activeRegistreForm();
+        else activeLoginForm();
     })
 })
 
@@ -32,23 +36,19 @@ window.onload = function() {
             let loginMesageError = document.querySelector("main #wraper #forms #loginForm .errorMessage");
             loginMesageError.classList.add("d-block");
             loginMesageError.classList.remove("d-none");
+
         }
         else if(message == "registre"){
             let nameMesageError = document.querySelector("main #wraper #forms #registerForm .nameErrorMessage");
             let emailMesageError = document.querySelector("main #wraper #forms #registerForm .emailErrorMessage");
-            console.log(nameMesageError);
-            console.log(emailMesageError);
+            let passMesageError = document.querySelector("main #wraper #forms #registerForm .passErrorMessage");
             const errorMessage = urlParams.get('error');
-            console.log(errorMessage == "email");
 
             if(errorMessage == "user") displayError(nameMesageError);
             else if(errorMessage == "email") displayError(emailMesageError);
+            else if(errorMessage == "dispearsPass") displayError(passMesageError);
 
-            wraper.classList.add("registreFormActive");
-            wraper.classList.remove("loginFormActive");
-            formsContiner.classList.add("registreFormActive");
-            formsContiner.classList.remove("loginFormActive");
-            formActived = "registreForm";
+            activeRegistreForm();
             function displayError(element){
                 element.classList.add("d-block");
                 element.classList.remove("d-none");

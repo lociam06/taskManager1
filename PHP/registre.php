@@ -4,8 +4,13 @@ include "conexion.php";
 $userName = $_POST["userNameInput"];
 $email = $_POST["emailInput"];
 $pass = $_POST["passInput"];
+$confirmPass = $_POST["confirmPassInput"];
 
 $UserVerificationError = "none";
+
+if($pass != $confirmPass){
+    $UserVerificationError = "dispearsPass";
+}
 
 $verificationQuery = "SELECT * FROM users WHERE username = ?";
 $verificateUser = $SQLConection->prepare($verificationQuery);
@@ -28,6 +33,6 @@ if($UserVerificationError == "none"){
     $insertUser->execute();
     header("Location: ../HTML/succefulyRegistre.html");
 }else{
-    header("Location: ../HTML/login_RegisterForm.html?formError=registre&error=" . $UserVerificationError);
+    header("Location: ../HTML/login_RegisterForm.html?formError=registre&error=" . $UserVerificationError . "&autoLog=false");
 }
 ?>
